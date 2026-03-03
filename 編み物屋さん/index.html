@@ -37,13 +37,62 @@
     nav {
       position: fixed;
       top: 0; width: 100%;
-      padding: 20px;
+      padding: 18px 24px;
       z-index: 1000;
       display: flex;
-      justify-content: center;
-      mix-blend-mode: multiply; /* 背景に馴染ませる */
+      justify-content: space-between;
+      align-items: center;
     }
-    .logo-img { height: 60px; width: auto; }
+    .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); mix-blend-mode: multiply; }
+    .logo-img { height: 52px; width: auto; }
+    .nav-left, .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-btn {
+      background: none; border: none; cursor: pointer;
+      color: #fff; padding: 4px; line-height: 1;
+      filter: drop-shadow(0 1px 6px rgba(0,0,0,0.5)) drop-shadow(0 0 2px rgba(0,0,0,0.4));
+      transition: opacity 0.2s;
+    }
+    .nav-btn:hover { opacity: 0.7; }
+    .nav-btn svg { display: block; }
+    .cart-badge {
+      position: relative; display: inline-block;
+    }
+    .cart-count {
+      position: absolute; top: -6px; right: -6px;
+      background: var(--accent-pink); color: var(--text);
+      font-size: 0.65rem; font-family: var(--font-jp);
+      width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s;
+      border: 1.5px solid #fff;
+      z-index: 10;
+    }
+    .cart-count.show { opacity: 1; }
+
+    /* --- Hamburger Menu --- */
+    .menu-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(253,250,245,0.97); z-index: 3000;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.5rem;
+    }
+    .menu-overlay.open { display: flex; }
+    .menu-overlay a {
+      font-family: var(--font-en); font-size: 2.8rem; font-weight: 400;
+      color: var(--text); text-decoration: none; letter-spacing: 0.05em;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+    .menu-overlay.open a { opacity: 1; transform: translateY(0); }
+    .menu-overlay.open a:nth-child(1) { transition-delay: 0.05s; }
+    .menu-overlay.open a:nth-child(2) { transition-delay: 0.1s; }
+    .menu-overlay.open a:nth-child(3) { transition-delay: 0.15s; }
+    .menu-overlay.open a:nth-child(4) { transition-delay: 0.2s; }
+    .menu-close {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none; font-size: 1.6rem;
+      cursor: pointer; color: var(--text);
+    }
 
     /* --- Hero Section --- */
     /* --- Hero Section 強化版 --- */
@@ -73,6 +122,25 @@
 }
     .hero h1 { font-family: var(--font-en); font-size: 4.5rem; font-weight: 400; margin-bottom: -10px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
     .hero p { font-size: 1rem; letter-spacing: 0.3em; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+
+    /* --- Hero Text Animation --- */
+    .hero-title-wrap { overflow: hidden; }
+    .hero h1 {
+      animation: heroTitleIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: 0.3s;
+    }
+    .hero p {
+      animation: heroSubIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: 0.8s;
+    }
+    @keyframes heroTitleIn {
+      from { opacity: 0; transform: translateY(40px) skewY(3deg); letter-spacing: 0.5em; }
+      to   { opacity: 1; transform: translateY(0) skewY(0deg); }
+    }
+    @keyframes heroSubIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     /* --- Sections --- */
     section { padding: 100px 20px; max-width: 900px; margin: 0 auto; }
@@ -142,9 +210,26 @@
     /* --- Order --- */
     .order { background: var(--accent-green); border-radius: 120px 120px 0 0; margin-top: 60px; padding: 120px 40px; }
     .order-content { max-width: 500px; margin: 0 auto; }
-    .order h2 { font-family: var(--font-en); font-size: 3.5rem; text-align: center; margin-bottom: 3rem; }
-    .order-step { margin-bottom: 40px; position: relative; }
-    .order-step span { font-family: var(--font-en); font-size: 1.5rem; color: #8a9983; display: block; }
+    .order h2 { font-family: var(--font-en); font-size: 3.5rem; text-align: center; margin-bottom: 4rem; }
+    .order-steps { position: relative; }
+    .order-steps::before {
+      content: ''; position: absolute;
+      left: 20px; top: 8px; bottom: 8px; width: 1px;
+      background: linear-gradient(to bottom, #b5cead, transparent);
+    }
+    .order-step {
+      margin-bottom: 48px; position: relative;
+      padding-left: 56px;
+    }
+    .order-step::before {
+      content: ''; position: absolute;
+      left: 12px; top: 10px;
+      width: 17px; height: 17px; border-radius: 50%;
+      background: #fff; border: 2px solid #8a9983;
+      box-shadow: 0 0 0 4px var(--accent-green);
+    }
+    .order-step span { font-family: var(--font-en); font-size: 1.4rem; color: #6a8a62; display: block; margin-bottom: 4px; }
+    .order-step p { font-size: 0.85rem; line-height: 2; }
 
     .btn-insta {
       display: block; width: fit-content; margin: 40px auto 0;
@@ -165,12 +250,42 @@
 <body>
 
   <nav>
-    <img src="images/logo.png" alt="Rio's Knit" class="logo-img">
+    <div class="nav-left">
+      <button class="nav-btn" onclick="toggleMenu()" aria-label="メニュー">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+          <line x1="0" y1="1" x2="22" y2="1" stroke="white" stroke-width="1.8"/>
+          <line x1="0" y1="8" x2="22" y2="8" stroke="white" stroke-width="1.8"/>
+          <line x1="0" y1="15" x2="22" y2="15" stroke="white" stroke-width="1.8"/>
+        </svg>
+      </button>
+    </div>
+    <div class="nav-logo">
+      <img src="images/logo.png" alt="Rio's Knit" class="logo-img">
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn cart-badge" onclick="addCart(this)" aria-label="カート">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M1 1h3l2.4 9.6M6.4 10.6h11.2l1.6-6H5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8" cy="18" r="1.5" fill="white"/>
+          <circle cx="16" cy="18" r="1.5" fill="white"/>
+        </svg>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+    </div>
   </nav>
 
+  <!-- Hamburger Menu -->
+  <div class="menu-overlay" id="menu-overlay">
+    <button class="menu-close" onclick="toggleMenu()">✕</button>
+    <a href="#" onclick="toggleMenu()">concept</a>
+    <a href="#" onclick="toggleMenu()">items</a>
+    <a href="#" onclick="toggleMenu()">how to order</a>
+    <a href="#" onclick="toggleMenu()">Instagram</a>
+  </div>
+
   <section class="hero">
-    <div class="fade-in">
-      <h1>Rio's Knit</h1>
+    <div>
+      <div class="hero-title-wrap"><h1>Rio's Knit</h1></div>
       <p>放課後の、ちいさな編みもの時間。</p>
     </div>
   </section>
@@ -234,6 +349,7 @@
   <section class="order fade-in">
     <div class="order-content">
       <h2>How to Order</h2>
+      <div class="order-steps">
       <div class="order-step">
         <span>step 01. Catalog</span>
         <p>Instagramの投稿からお気に入りのアイテムを見つけてください。カラーやサイズのバリエーションも投稿中です。</p>
@@ -245,6 +361,7 @@
       <div class="order-step">
         <span>step 03. Hand-knitted for you</span>
         <p>ご注文確認後、制作期間の目安をお伝えします。一点一点手編みでお作りするため、お届けまで少々お時間をいただきます。完成したら発送のご連絡をします。</p>
+      </div>
       </div>
       <a href="#" class="btn-insta">Visit Instagram</a>
     </div>
@@ -319,6 +436,57 @@
       btn.classList.toggle('active');
       btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
     }
+
+    // --- Cart count (ダミー) ---
+    let cartCount = 0;
+    const origAddCart = addCart;
+    function addCart(btn) {
+      // Nav cart ボタンは無視
+      if (btn.closest('nav')) return;
+      cartCount++;
+      const badge = document.getElementById('cart-count');
+      badge.textContent = cartCount;
+      badge.classList.add('show');
+      const orig = btn.textContent;
+      btn.textContent = '✓ 追加しました';
+      btn.style.background = '#8a9983';
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.background = '';
+      }, 1800);
+    }
+
+    // --- Hamburger Menu ---
+    function toggleMenu() {
+      document.getElementById('menu-overlay').classList.toggle('open');
+      document.body.style.overflow =
+        document.getElementById('menu-overlay').classList.contains('open') ? 'hidden' : '';
+    }
+
+    // --- Nav color on scroll ---
+    function updateNav() {
+      const nav = document.querySelector('nav');
+      const scrolled = window.scrollY > 60;
+      nav.style.background = scrolled ? 'rgba(253,250,245,0.95)' : 'transparent';
+      nav.style.backdropFilter = scrolled ? 'blur(8px)' : 'none';
+      // アイコン色
+      const color = scrolled ? '#4a443f' : 'white';
+      document.querySelectorAll('.nav-btn svg line, .nav-btn svg path').forEach(el => {
+        el.setAttribute('stroke', color);
+      });
+      document.querySelectorAll('.nav-btn svg circle').forEach(el => {
+        el.setAttribute('fill', color);
+        el.setAttribute('stroke', color);
+      });
+      // drop-shadow調整
+      document.querySelectorAll('.nav-btn').forEach(el => {
+        el.style.filter = scrolled
+          ? 'none'
+          : 'drop-shadow(0 1px 6px rgba(0,0,0,0.5)) drop-shadow(0 0 2px rgba(0,0,0,0.4))';
+      });
+    }
+    window.addEventListener('scroll', updateNav);
+    updateNav(); // 初期実行
   </script>
 </body>
 </html>
